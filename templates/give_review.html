@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card shadow p-4">
+            <h2 class="text-center mb-4">Give Review</h2>
+
+            <p><strong>Session Topic:</strong> {{ session.topic }}</p>
+            <p><strong>Review For:</strong> {{ reviewee.anonymous_name }}</p>
+
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Stars</label>
+                    <select name="stars" class="form-control" required>
+                        <option value="">Select Rating</option>
+                        <option value="1">1 - Poor</option>
+                        <option value="2">2 - Fair</option>
+                        <option value="3">3 - Good</option>
+                        <option value="4">4 - Very Good</option>
+                        <option value="5">5 - Excellent</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Feedback</label>
+                    <textarea name="feedback" class="form-control" rows="4" placeholder="Write your feedback here..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-success">Submit Review</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

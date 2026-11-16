@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}Community Board - SkillSphere{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">Skill Community Board</h2>
+        <p class="text-muted mb-0">Explore open skill exchange posts from the SkillSphere community.</p>
+    </div>
+    <div class="mt-2">
+        <a href="{{ url_for('create_post') }}" class="btn btn-success me-2">Create Post</a>
+        <a href="{{ url_for('my_posts') }}" class="btn btn-outline-dark">My Posts</a>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0 p-4 mb-4">
+    <h4 class="fw-semibold mb-3">Search & Filter</h4>
+    <form method="GET" action="{{ url_for('board') }}">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Post Type</label>
+                <select name="type" class="form-select">
+                    <option value="">All</option>
+                    <option value="Learn" {% if filter_type == 'Learn' %}selected{% endif %}>Want to Learn</option>
+                    <option value="Teach" {% if filter_type == 'Teach' %}selected{% endif %}>Can Teach</option>
+                </select>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold">Search Skill</label>
+                <input type="text" name="skill" class="form-control" value="{{ search_skill }}" placeholder="Example: Python">
+            </div>
+
+            <div class="col-md-2 mb-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Filter</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% if posts %}
+<div class="row g-4">
+    {% for post in posts %}
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0 p-4 h-100 board-card">
+            <div class="d-flex justify-content-between align-items-start flex-wrap mb-3">
+                <div>
+                    <h4 class="mb-1 fw-bold">{{ post.skill_name }}</h4>
+                    <small class="text-muted">
+                        Posted on {{ post.created_at.strftime('%d %b %Y, %I:%M %p') }}
+                    </small>
+                </div>
+
+                <div class="mt-2 mt-md-0">
+                    <span class="badge {% if post.post_type == 'Learn' %}bg-primary{% else %}bg-success{% endif %} px-3 py-2">
+                        {{ post.post_type }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="community-user-box mb-3">
+                <div class="d-flex align-items-center">
+                    <div class="avatar-circle-small me-3">{{ post.user.avatar }}</div>
+                    <div>
+                        <p class="mb-1 fw-semibold">{{ post.user.anonymous_name }}</p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-warning text-dark">{{ post.user.badge }}</span>
+                            <span class="badge bg-light text-dark border">Rating: {{ post.user.rating }}</span>
+                            <span class="badge bg-light text-dark border">Trust: {{ post.user.trust_score }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="mb-2"><strong>Description:</strong> {{ post.description }}</p>
+            <p class="mb-4">
+                <strong>Availability:</strong>
+                {{ post.availability if post.availability else 'Not specified' }}
+            </p>
+
+            <div class="mt-auto d-flex flex-wrap gap-2">
+                <a href="{{ url_for('view_user', user_id=post.user.id) }}" class="btn btn-outline-dark btn-sm">View Profile</a>
+                <a href="{{ url_for('send_message', user_id=post.user.id) }}" class="btn btn-outline-primary btn-sm">Message</a>
+                <a href="{{ url_for('chat', user_id=post.user.id) }}" class="btn btn-outline-success btn-sm">Live Chat</a>
+                <a href="{{ url_for('book_session', user_id=post.user.id) }}" class="btn btn-primary btn-sm">Book Session</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card shadow-sm border-0 p-5 text-center">
+    <h4 class="fw-bold mb-2">No posts found</h4>
+    <p class="text-muted mb-3">Try changing your filters or create a new skill exchange post.</p>
+    <div class="d-flex justify-content-center flex-wrap gap-2">
+        <a href="{{ url_for('create_post') }}" class="btn btn-success">Create Post</a>
+        <a href="{{ url_for('board') }}" class="btn btn-secondary">Clear Filters</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

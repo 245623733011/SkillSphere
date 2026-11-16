@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}Learning Hub - SkillSphere{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">AI Learning Hub</h2>
+        <p class="text-muted mb-0">Learn skills, generate quizzes, take tests, and earn certificates.</p>
+    </div>
+    <div class="mt-2 d-flex flex-wrap gap-2">
+        <a href="{{ url_for('quiz_results') }}" class="btn btn-outline-primary">Quiz Results</a>
+        <a href="{{ url_for('learning_certificates') }}" class="btn btn-warning">Certificates</a>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0 p-4 mb-4">
+    <h4 class="fw-semibold mb-3">Search Courses</h4>
+    <input type="text" id="courseSearch" class="form-control" placeholder="Search course...">
+</div>
+
+{% set data_courses = [
+    'Python',
+    'SQL',
+    'Excel',
+    'Power BI',
+    'Data Science',
+    'Statistics',
+    'Data Visualization',
+    'Pandas',
+    'NumPy',
+    'Business Analytics'
+] %}
+
+{% set web_courses = [
+    'HTML',
+    'CSS',
+    'JavaScript',
+    'Flask',
+    'Web Development',
+    'Frontend Development',
+    'Backend Development'
+] %}
+
+{% set ai_courses = [
+    'Machine Learning',
+    'Artificial Intelligence',
+    'Deep Learning',
+    'Natural Language Processing',
+    'Computer Vision',
+    'Cyber Security'
+] %}
+
+{% set core_courses = [
+    'DSA',
+    'Operating Systems',
+    'Computer Networks',
+    'Database Management Systems',
+    'OOPs',
+    'Software Engineering'
+] %}
+
+<div id="courseContainer">
+
+    <div class="mb-5 category-block">
+        <h3 class="fw-bold mb-3">Data & Analytics</h3>
+        <div class="row g-4">
+            {% for skill in data_courses %}
+            <div class="col-md-6 col-lg-3 course-item">
+                <div class="card shadow-sm border-0 p-4 h-100 learning-card">
+                    <h4 class="fw-bold mb-2">{{ skill }}</h4>
+                    <p class="text-muted">AI-generated quiz learning for {{ skill }}.</p>
+
+                    <div class="d-flex flex-column gap-2 mt-3">
+                        <a href="{{ url_for('generate_quiz', skill=skill) }}" class="btn btn-success btn-sm">Generate Quiz</a>
+                        <a href="{{ url_for('quiz', skill=skill) }}" class="btn btn-outline-success btn-sm">Take Quiz</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="mb-5 category-block">
+        <h3 class="fw-bold mb-3">Web Development</h3>
+        <div class="row g-4">
+            {% for skill in web_courses %}
+            <div class="col-md-6 col-lg-3 course-item">
+                <div class="card shadow-sm border-0 p-4 h-100 learning-card">
+                    <h4 class="fw-bold mb-2">{{ skill }}</h4>
+                    <p class="text-muted">AI-generated quiz learning for {{ skill }}.</p>
+
+                    <div class="d-flex flex-column gap-2 mt-3">
+                        <a href="{{ url_for('generate_quiz', skill=skill) }}" class="btn btn-success btn-sm">Generate Quiz</a>
+                        <a href="{{ url_for('quiz', skill=skill) }}" class="btn btn-outline-success btn-sm">Take Quiz</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="mb-5 category-block">
+        <h3 class="fw-bold mb-3">AI & Security</h3>
+        <div class="row g-4">
+            {% for skill in ai_courses %}
+            <div class="col-md-6 col-lg-3 course-item">
+                <div class="card shadow-sm border-0 p-4 h-100 learning-card">
+                    <h4 class="fw-bold mb-2">{{ skill }}</h4>
+                    <p class="text-muted">AI-generated quiz learning for {{ skill }}.</p>
+
+                    <div class="d-flex flex-column gap-2 mt-3">
+                        <a href="{{ url_for('generate_quiz', skill=skill) }}" class="btn btn-success btn-sm">Generate Quiz</a>
+                        <a href="{{ url_for('quiz', skill=skill) }}" class="btn btn-outline-success btn-sm">Take Quiz</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="mb-4 category-block">
+        <h3 class="fw-bold mb-3">Core Computer Science</h3>
+        <div class="row g-4">
+            {% for skill in core_courses %}
+            <div class="col-md-6 col-lg-3 course-item">
+                <div class="card shadow-sm border-0 p-4 h-100 learning-card">
+                    <h4 class="fw-bold mb-2">{{ skill }}</h4>
+                    <p class="text-muted">AI-generated quiz learning for {{ skill }}.</p>
+
+                    <div class="d-flex flex-column gap-2 mt-3">
+                        <a href="{{ url_for('generate_quiz', skill=skill) }}" class="btn btn-success btn-sm">Generate Quiz</a>
+                        <a href="{{ url_for('quiz', skill=skill) }}" class="btn btn-outline-success btn-sm">Take Quiz</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+<script>
+document.getElementById("courseSearch").addEventListener("keyup", function() {
+    const value = this.value.toLowerCase();
+
+    document.querySelectorAll(".course-item").forEach(card => {
+        const matches = card.innerText.toLowerCase().includes(value);
+        card.style.display = matches ? "" : "none";
+    });
+});
+</script>
+{% endblock %}

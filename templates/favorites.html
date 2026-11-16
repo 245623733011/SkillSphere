@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">My Favorite Users</h2>
+
+{% if favorite_records %}
+<div class="row">
+    {% for fav in favorite_records %}
+    <div class="col-md-6 mb-4">
+        <div class="card shadow p-4 h-100">
+            <div class="text-center mb-3">
+                <div class="avatar-circle">{{ fav.favorite_user.avatar }}</div>
+                <h4 class="mt-2">{{ fav.favorite_user.anonymous_name }}</h4>
+                <span class="badge bg-warning text-dark">{{ fav.favorite_user.badge }}</span>
+            </div>
+
+            <p><strong>Bio:</strong> {{ fav.favorite_user.bio if fav.favorite_user.bio else 'No bio added yet.' }}</p>
+            <p><strong>Skills Offered:</strong> {{ fav.favorite_user.skills_offered if fav.favorite_user.skills_offered else 'Not added yet' }}</p>
+            <p><strong>Skills Wanted:</strong> {{ fav.favorite_user.skills_wanted if fav.favorite_user.skills_wanted else 'Not added yet' }}</p>
+            <p><strong>Rating:</strong> {{ fav.favorite_user.rating }}</p>
+            <p><strong>Trust Score:</strong> {{ fav.favorite_user.trust_score }}</p>
+
+            <div class="mt-2">
+                <a href="{{ url_for('view_user', user_id=fav.favorite_user.id) }}" class="btn btn-outline-dark btn-sm">View Profile</a>
+                <a href="{{ url_for('send_message', user_id=fav.favorite_user.id) }}" class="btn btn-outline-primary btn-sm">Message</a>
+                <a href="{{ url_for('book_session', user_id=fav.favorite_user.id) }}" class="btn btn-primary btn-sm">Book Session</a>
+                <a href="{{ url_for('remove_favorite', user_id=fav.favorite_user.id) }}" class="btn btn-outline-danger btn-sm">Remove</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-warning text-center">
+    No favorite users yet.
+</div>
+{% endif %}
+{% endblock %}

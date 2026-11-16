@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - SkillSphere{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">Dashboard</h2>
+        <p class="text-muted mb-0">Welcome back to your anonymous skill exchange space.</p>
+    </div>
+    <div class="mt-2">
+        <a href="{{ url_for('profile') }}" class="btn btn-primary me-2">Edit Profile</a>
+        <a href="{{ url_for('matches') }}" class="btn btn-success">Find Matches</a>
+    </div>
+</div>
+
+<div class="card shadow border-0 p-4 mb-4">
+    <div class="row align-items-center">
+        <div class="col-md-3 text-center mb-3 mb-md-0">
+            <div class="avatar-circle-large mx-auto">{{ user.avatar }}</div>
+        </div>
+        <div class="col-md-9">
+            <h3 class="fw-bold mb-1">{{ user.anonymous_name }}</h3>
+            <p class="text-muted mb-2">{{ user.bio if user.bio else 'No bio added yet.' }}</p>
+            <div class="d-flex flex-wrap gap-2 mb-2">
+                <span class="badge bg-warning text-dark px-3 py-2">{{ user.badge }}</span>
+                <span class="badge bg-primary px-3 py-2">Rating: {{ user.rating }}</span>
+                <span class="badge bg-success px-3 py-2">Trust Score: {{ user.trust_score }}</span>
+                <span class="badge bg-dark px-3 py-2">Exchanges: {{ user.completed_exchanges }}</span>
+            </div>
+            <p class="mb-1"><strong>Skills Offered:</strong> {{ user.skills_offered if user.skills_offered else 'Not added yet' }}</p>
+            <p class="mb-0"><strong>Skills Wanted:</strong> {{ user.skills_wanted if user.skills_wanted else 'Not added yet' }}</p>
+        </div>
+    </div>
+</div>
+
+<h4 class="mb-3 fw-semibold">Your Activity Overview</h4>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3 col-sm-6">
+        <div class="card dashboard-card shadow-sm border-0 p-3 text-center h-100">
+            <h6 class="text-muted">Rating</h6>
+            <h3 class="fw-bold text-primary">{{ user.rating }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card dashboard-card shadow-sm border-0 p-3 text-center h-100">
+            <h6 class="text-muted">Trust Score</h6>
+            <h3 class="fw-bold text-success">{{ user.trust_score }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card dashboard-card shadow-sm border-0 p-3 text-center h-100">
+            <h6 class="text-muted">Unread Messages</h6>
+            <h3 class="fw-bold text-dark">{{ unread_count }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card dashboard-card shadow-sm border-0 p-3 text-center h-100">
+            <h6 class="text-muted">Pending Requests</h6>
+            <h3 class="fw-bold text-warning">{{ pending_session_count }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+        <div class="card dashboard-card shadow-sm border-0 p-3 text-center h-100">
+            <h6 class="text-muted">Sent Requests</h6>
+            <h3 class="fw-bold">{{ sent_count }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card dashboard-card shadow-sm border-0 p-3 text-center h-100">
+            <h6 class="text-muted">Received Requests</h6>
+            <h3 class="fw-bold">{{ received_count }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card dashboard-card shadow-sm border-0 p-3 text-center h-100">
+            <h6 class="text-muted">Completed Sessions</h6>
+            <h3 class="fw-bold text-success">{{ completed_count }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card dashboard-card shadow-sm border-0 p-3 text-center h-100">
+            <h6 class="text-muted">Favorite Users</h6>
+            <h3 class="fw-bold">{{ favorite_count }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+        <div class="card dashboard-card shadow-sm border-0 p-3 text-center h-100">
+            <h6 class="text-muted">Total Reviews</h6>
+            <h3 class="fw-bold">{{ review_count }}</h3>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="card dashboard-card shadow-sm border-0 p-3 text-center h-100">
+            <h6 class="text-muted">My Skill Posts</h6>
+            <h3 class="fw-bold">{{ post_count }}</h3>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div class="card dashboard-card shadow-sm border-0 p-3 text-center h-100">
+            <h6 class="text-muted">Certificates</h6>
+            <h3 class="fw-bold text-info">{{ certificate_count }}</h3>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow border-0 p-4 mb-4">
+    <h4 class="mb-3 fw-semibold">Quick Actions</h4>
+    <div class="d-flex flex-wrap gap-2">
+        <a href="{{ url_for('profile') }}" class="btn btn-primary">Edit Profile</a>
+        <a href="{{ url_for('matches') }}" class="btn btn-success">Find Matches</a>
+        <a href="{{ url_for('skill_search') }}" class="btn btn-outline-dark">Skill Search</a>
+        <a href="{{ url_for('recommendations') }}" class="btn btn-info text-white">AI Recommendations</a>
+        <a href="{{ url_for('board') }}" class="btn btn-outline-primary">Community Board</a>
+        <a href="{{ url_for('leaderboard') }}" class="btn btn-warning">Leaderboard</a>
+        <a href="{{ url_for('create_post') }}" class="btn btn-secondary">Create Post</a>
+        <a href="{{ url_for('favorites') }}" class="btn btn-dark">Favorites</a>
+        <a href="{{ url_for('learning_home') }}" class="btn btn-outline-primary">AI Learning Hub</a>
+        <a href="{{ url_for('quiz_results') }}" class="btn btn-outline-success">Quiz Results</a>
+        <a href="{{ url_for('learning_certificates') }}" class="btn btn-outline-warning">Learning Certificates</a>
+        <a href="{{ url_for('certificates') }}" class="btn btn-outline-success">Certificates</a>
+        <a href="{{ url_for('my_sessions') }}" class="btn btn-outline-dark">My Sessions</a>
+        <a href="{{ url_for('inbox') }}" class="btn btn-outline-secondary">Inbox</a>
+
+        {% if current_user.is_admin %}
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-danger">Admin Dashboard</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card shadow border-0 p-4 mb-4">
+    <h4 class="mb-3 fw-semibold">Profile Summary</h4>
+    <div class="row">
+        <div class="col-md-6 mb-2">
+            <p><strong>Anonymous Name:</strong> {{ user.anonymous_name }}</p>
+        </div>
+        <div class="col-md-6 mb-2">
+            <p><strong>Email:</strong> {{ user.email }}</p>
+        </div>
+        <div class="col-md-12 mb-2">
+            <p><strong>Skills Offered:</strong> {{ user.skills_offered if user.skills_offered else 'Not added yet' }}</p>
+        </div>
+        <div class="col-md-12">
+            <p><strong>Skills Wanted:</strong> {{ user.skills_wanted if user.skills_wanted else 'Not added yet' }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

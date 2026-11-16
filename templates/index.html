@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}SkillSphere - Anonymous Skill Exchange Platform{% endblock %}
+
+{% block content %}
+<section class="hero-section text-center py-5 mb-5">
+    <div class="container">
+        <span class="badge bg-dark px-3 py-2 mb-3">Hackathon Project • Anonymous Skill Exchange</span>
+        <h1 class="display-4 fw-bold mb-3">Welcome to SkillSphere</h1>
+        <p class="lead text-muted mx-auto" style="max-width: 850px;">
+            SkillSphere is an anonymous skill exchange platform where users can teach, learn, connect, and grow together
+            by exchanging knowledge instead of money.
+        </p>
+
+        <div class="mt-4 d-flex justify-content-center flex-wrap gap-3">
+            {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">Get Started</a>
+                <a href="{{ url_for('login') }}" class="btn btn-outline-dark btn-lg">Login</a>
+            {% else %}
+                <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg">Go to Dashboard</a>
+                <a href="{{ url_for('board') }}" class="btn btn-success btn-lg">Open Board</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="mb-5">
+    <div class="row g-4">
+        <div class="col-md-3 col-sm-6">
+            <div class="card stat-card text-center shadow-sm border-0 p-4 h-100">
+                <h2 class="fw-bold text-primary">{{ total_users }}</h2>
+                <p class="mb-0 text-muted">Registered Users</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="card stat-card text-center shadow-sm border-0 p-4 h-100">
+                <h2 class="fw-bold text-success">{{ total_sessions }}</h2>
+                <p class="mb-0 text-muted">Total Sessions</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="card stat-card text-center shadow-sm border-0 p-4 h-100">
+                <h2 class="fw-bold text-warning">{{ total_reviews }}</h2>
+                <p class="mb-0 text-muted">Reviews Shared</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="card stat-card text-center shadow-sm border-0 p-4 h-100">
+                <h2 class="fw-bold text-dark">{{ total_posts }}</h2>
+                <p class="mb-0 text-muted">Board Posts</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mb-5">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Why SkillSphere?</h2>
+        <p class="text-muted">A smarter way to learn and teach through community-driven skill exchange.</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-3 col-sm-6">
+            <div class="card feature-card shadow-sm border-0 p-4 h-100">
+                <div class="feature-icon mb-3">🕶️</div>
+                <h4 class="fw-semibold">Anonymous Learning</h4>
+                <p class="text-muted mb-0">
+                    Protect privacy with anonymous usernames while learning valuable skills in a safe environment.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="card feature-card shadow-sm border-0 p-4 h-100">
+                <div class="feature-icon mb-3">🤝</div>
+                <h4 class="fw-semibold">Smart Matching</h4>
+                <p class="text-muted mb-0">
+                    Find users whose teaching skills match exactly what you want to learn and exchange.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="card feature-card shadow-sm border-0 p-4 h-100">
+                <div class="feature-icon mb-3">⭐</div>
+                <h4 class="fw-semibold">Trust & Reviews</h4>
+                <p class="text-muted mb-0">
+                    Build credibility through ratings, reviews, trust scores, and successful completed sessions.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="card feature-card shadow-sm border-0 p-4 h-100">
+                <div class="feature-icon mb-3">🌍</div>
+                <h4 class="fw-semibold">Community Board</h4>
+                <p class="text-muted mb-0">
+                    Post what you want to learn or teach and discover opportunities across the wider community.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="card shadow-sm border-0 p-5 text-center mb-4">
+    <h2 class="fw-bold mb-3">Exchange Skills. Build Trust. Grow Together.</h2>
+    <p class="text-muted mb-4 mx-auto" style="max-width: 800px;">
+        SkillSphere transforms learning into a collaborative experience by connecting users through skills,
+        not payments. From one-to-one mentoring to community posts and smart recommendations, the platform
+        creates a complete ecosystem for peer-to-peer learning.
+    </p>
+
+    <div class="d-flex justify-content-center flex-wrap gap-3">
+        {% if not current_user.is_authenticated %}
+            <a href="{{ url_for('register') }}" class="btn btn-success btn-lg">Join SkillSphere</a>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-dark btn-lg">Already have an account?</a>
+        {% else %}
+            <a href="{{ url_for('recommendations') }}" class="btn btn-info text-white btn-lg">View Recommendations</a>
+            <a href="{{ url_for('matches') }}" class="btn btn-outline-success btn-lg">Explore Matches</a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

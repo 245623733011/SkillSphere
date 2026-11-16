@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}Skill Search - SkillSphere{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">Search Users by Skill</h2>
+        <p class="text-muted mb-0">Find users based on the skills they offer or want to learn.</p>
+    </div>
+    <div class="mt-2">
+        <a href="{{ url_for('matches') }}" class="btn btn-success me-2">View Matches</a>
+        <a href="{{ url_for('recommendations') }}" class="btn btn-info text-white">AI Recommendations</a>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0 p-4 mb-4">
+    <h4 class="fw-semibold mb-3">Search Skill</h4>
+    <form method="GET" action="{{ url_for('skill_search') }}">
+        <div class="row">
+            <div class="col-md-10 mb-3">
+                <label class="form-label fw-semibold">Enter Skill</label>
+                <input
+                    type="text"
+                    name="query"
+                    class="form-control"
+                    placeholder="Example: Python, Excel, Power BI"
+                    value="{{ query }}"
+                >
+            </div>
+            <div class="col-md-2 mb-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% if query %}
+<div class="mb-4">
+    <h5 class="fw-semibold">
+        Results for:
+        <span class="badge bg-primary px-3 py-2">{{ query }}</span>
+    </h5>
+</div>
+{% endif %}
+
+{% if users %}
+<div class="row g-4">
+    {% for user in users %}
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0 p-4 h-100 skill-search-card">
+            <div class="text-center mb-3">
+                <div class="avatar-circle mx-auto">{{ user.avatar }}</div>
+                <h4 class="mt-3 mb-1 fw-bold">{{ user.anonymous_name }}</h4>
+                <span class="badge bg-warning text-dark px-3 py-2">{{ user.badge }}</span>
+            </div>
+
+            <div class="row text-center mb-3">
+                <div class="col-4">
+                    <small class="text-muted d-block">Rating</small>
+                    <strong>{{ user.rating }}</strong>
+                </div>
+                <div class="col-4">
+                    <small class="text-muted d-block">Trust</small>
+                    <strong>{{ user.trust_score }}</strong>
+                </div>
+                <div class="col-4">
+                    <small class="text-muted d-block">Exchanges</small>
+                    <strong>{{ user.completed_exchanges }}</strong>
+                </div>
+            </div>
+
+            <p class="mb-3">
+                <strong>Bio:</strong>
+                {{ user.bio if user.bio else 'No bio added yet.' }}
+            </p>
+
+            <div class="skill-box mb-3">
+                <h6 class="fw-semibold text-success mb-2">Skills Offered</h6>
+                {% if user.skills_offered %}
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for skill in user.skills_offered.split(',') %}
+                            <a href="{{ url_for('skill_search', query=skill.strip()) }}" class="text-decoration-none">
+                                <span class="badge bg-success-subtle text-dark border px-3 py-2">{{ skill.strip() }}</span>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted mb-0">Not added yet.</p>
+                {% endif %}
+            </div>
+
+            <div class="skill-box mb-4">
+                <h6 class="fw-semibold text-primary mb-2">Skills Wanted</h6>
+                {% if user.skills_wanted %}
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for skill in user.skills_wanted.split(',') %}
+                            <a href="{{ url_for('skill_search', query=skill.strip()) }}" class="text-decoration-none">
+                                <span class="badge bg-primary-subtle text-dark border px-3 py-2">{{ skill.strip() }}</span>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted mb-0">Not added yet.</p>
+                {% endif %}
+            </div>
+
+            <div class="mt-auto d-flex flex-wrap gap-2">
+                <a href="{{ url_for('view_user', user_id=user.id) }}" class="btn btn-outline-dark btn-sm">View Profile</a>
+                <a href="{{ url_for('send_message', user_id=user.id) }}" class="btn btn-outline-primary btn-sm">Message</a>
+                <a href="{{ url_for('chat', user_id=user.id) }}" class="btn btn-outline-success btn-sm">Live Chat</a>
+                <a href="{{ url_for('book_session', user_id=user.id) }}" class="btn btn-primary btn-sm">Book Session</a>
+
+                {% if is_favorite(current_user.id, user.id) %}
+                    <a href="{{ url_for('remove_favorite', user_id=user.id) }}" class="btn btn-outline-danger btn-sm">Unfavorite</a>
+                {% else %}
+                    <a href="{{ url_for('add_favorite', user_id=user.id) }}" class="btn btn-outline-warning btn-sm">Favorite</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% elif query %}
+<div class="card shadow-sm border-0 p-5 text-center">
+    <h4 class="fw-bold mb-2">No users found</h4>
+    <p class="text-muted mb-3">Try searching with another skill or update your filters.</p>
+    <div class="d-flex justify-content-center flex-wrap gap-2">
+        <a href="{{ url_for('skill_search') }}" class="btn btn-secondary">Clear Search</a>
+        <a href="{{ url_for('profile') }}" class="btn btn-primary">Update My Skills</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

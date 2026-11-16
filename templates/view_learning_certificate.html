@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}Certificate - SkillSphere{% endblock %}
+
+{% block content %}
+<div class="certificate-wrapper text-center">
+
+    <div class="certificate-card shadow-lg p-5 bg-white" id="certificate-area">
+
+        <div class="certificate-border p-4">
+
+            <h1 class="fw-bold mb-2">Certificate of Completion</h1>
+            <p class="text-muted mb-4">SkillSphere AI Learning Program</p>
+
+            <p>This is proudly awarded to</p>
+
+            <h2 class="fw-bold">{{ current_user.anonymous_name }}</h2>
+
+            <p class="mt-3">for successfully completing the quiz in</p>
+
+            <h3 class="fw-bold text-success">{{ certificate.skill }}</h3>
+
+            <p class="mt-3">with score</p>
+
+            <h4>{{ certificate.score }}/{{ certificate.total_questions }}</h4>
+
+            <p class="mt-4 text-muted">
+                Issued on {{ certificate.date_earned.strftime('%d %b %Y') }}
+            </p>
+
+            <div class="mt-5 d-flex justify-content-between align-items-center">
+
+                <div class="text-center">
+                    <p class="mb-1">Date</p>
+                    <strong>{{ certificate.date_earned.strftime('%d %b %Y') }}</strong>
+                </div>
+
+                <div class="text-center">
+                    <img src="{{ url_for('static', filename='signature.png') }}"
+                         alt="Signature"
+                         style="height: 60px;">
+                    <p class="mb-0"><strong>Authorized Signature</strong></p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-center gap-2 flex-wrap">
+        <button onclick="downloadCertificatePNG()" class="btn btn-dark">
+            Download PNG ⬇️
+        </button>
+
+        <button onclick="downloadCertificatePDF()" class="btn btn-primary">
+            Download PDF 📄
+        </button>
+    </div>
+
+</div>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+async function getCertificateCanvas() {
+    const certificate = document.getElementById('certificate-area');
+    return await html2canvas(certificate, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff"
+    });
+}
+
+async function downloadCertificatePNG() {
+    const canvas = await getCertificateCanvas();
+    const link = document.createElement('a');
+    link.download = 'SkillSphere_Certificate.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+}
+
+async function downloadCertificatePDF() {
+    const canvas = await getCertificateCanvas();
+    const imgData = canvas.toDataURL('image/png');
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('landscape', 'mm', 'a4');
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    const imgWidth = pageWidth - 20;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    let finalWidth = imgWidth;
+    let finalHeight = imgHeight;
+
+    if (finalHeight > pageHeight - 20) {
+        finalHeight = pageHeight - 20;
+        finalWidth = (canvas.width * finalHeight) / canvas.height;
+    }
+
+    const x = (pageWidth - finalWidth) / 2;
+    const y = (pageHeight - finalHeight) / 2;
+
+    pdf.addImage(imgData, 'PNG', x, y, finalWidth, finalHeight);
+    pdf.save('SkillSphere_Certificate.pdf');
+}
+</script>
+
+{% endblock %}

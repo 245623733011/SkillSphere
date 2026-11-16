@@ -1,0 +1,616 @@
+/* ---------------- GLOBAL ---------------- */
+
+body {
+    background: #f4f7fb;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: bold;
+}
+
+.navbar {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-btn {
+    margin: 2px;
+}
+
+.card {
+    border-radius: 18px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.form-control,
+.form-select,
+.btn {
+    border-radius: 12px;
+}
+
+textarea {
+    resize: none;
+}
+
+table {
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.footer {
+    margin-top: 50px;
+    padding: 20px;
+    text-align: center;
+    color: #666;
+}
+
+.badge {
+    font-size: 14px;
+    padding: 8px 10px;
+    border-radius: 12px;
+}
+
+.badge:hover {
+    opacity: 0.9;
+}
+
+.card ul {
+    padding-left: 20px;
+}
+
+.card ul li {
+    margin-bottom: 6px;
+}
+
+/* ---------------- HERO / LANDING ---------------- */
+
+.hero-section {
+    background: linear-gradient(135deg, #f8f9ff, #eef4ff);
+    border-radius: 24px;
+    padding: 60px 20px;
+}
+
+.stat-card,
+.feature-card {
+    border-radius: 18px;
+    transition: 0.3s ease;
+}
+
+.stat-card:hover,
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+
+.feature-card {
+    background: white;
+    min-height: 180px;
+}
+
+.feature-icon {
+    font-size: 36px;
+}
+
+/* ---------------- AVATARS ---------------- */
+
+.avatar-circle,
+.avatar-circle-large,
+.avatar-circle-small {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0d6efd, #6610f2);
+    color: white;
+    font-weight: bold;
+}
+
+.avatar-circle {
+    width: 80px;
+    height: 80px;
+    font-size: 32px;
+    margin: 0 auto;
+}
+
+.avatar-circle-large {
+    width: 100px;
+    height: 100px;
+    font-size: 40px;
+    margin: 0 auto;
+}
+
+.avatar-circle-small {
+    width: 55px;
+    height: 55px;
+    font-size: 22px;
+    margin: 0;
+}
+
+/* ---------------- COMMON CARD HOVER ---------------- */
+
+.dashboard-card,
+.match-card,
+.recommendation-card,
+.skill-search-card,
+.board-card,
+.admin-stat-card,
+.review-card,
+.session-card,
+.message-card,
+.create-post-card,
+.register-card,
+.login-card,
+.leaderboard-item {
+    transition: 0.3s ease;
+}
+
+.dashboard-card:hover,
+.match-card:hover,
+.recommendation-card:hover,
+.skill-search-card:hover,
+.board-card:hover,
+.admin-stat-card:hover,
+.review-card:hover,
+.session-card:hover,
+.message-card:hover,
+.create-post-card:hover,
+.register-card:hover,
+.login-card:hover,
+.leaderboard-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+
+/* ---------------- SECTION BOXES ---------------- */
+
+.match-section,
+.recommendation-section,
+.skill-box,
+.community-user-box,
+.empty-box,
+.review-card,
+.session-card,
+.message-card {
+    background: #f8f9fa;
+    border-radius: 14px;
+    border: 1px solid #e9ecef;
+}
+
+.match-section,
+.recommendation-section,
+.skill-box,
+.community-user-box {
+    padding: 14px;
+}
+
+.review-card,
+.session-card,
+.message-card {
+    padding: 16px;
+}
+
+.empty-box {
+    padding: 30px 20px;
+    border-style: dashed;
+}
+
+/* ---------------- SPECIAL CARDS ---------------- */
+
+.match-card,
+.recommendation-card,
+.skill-search-card,
+.board-card,
+.admin-stat-card {
+    border-radius: 18px;
+}
+
+.create-post-card,
+.register-card,
+.login-card {
+    border-radius: 20px;
+}
+
+.leaderboard-item {
+    background: #fff;
+}
+
+/* ---------------- CHAT / CONVERSATION ---------------- */
+
+.conversation-box {
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 16px;
+    border: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message-bubble {
+    max-width: 75%;
+    padding: 14px 16px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    word-wrap: break-word;
+}
+
+.my-message {
+    background: linear-gradient(135deg, #0d6efd, #3d8bfd);
+    color: white;
+    border-bottom-right-radius: 6px;
+    text-align: left;
+}
+
+.other-message {
+    background: white;
+    color: #212529;
+    border: 1px solid #dee2e6;
+    border-bottom-left-radius: 6px;
+    text-align: left;
+}
+
+.message-time {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.conversation-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.conversation-box::-webkit-scrollbar-thumb {
+    background: #ced4da;
+    border-radius: 10px;
+}
+
+#chat-form input,
+#chat-form button {
+    border-radius: 12px;
+}
+
+/* ---------------- CERTIFICATES ---------------- */
+
+.certificate-box {
+    background: linear-gradient(135deg, #fff, #f8f9ff);
+    border: 2px solid #ddd;
+    border-radius: 15px;
+}
+
+.certificate-box h1 {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.certificate-box h2 {
+    color: #333;
+    font-weight: bold;
+}
+
+.certificate-box h3 {
+    color: #555;
+}
+
+.certificate-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.certificate-card {
+    width: 100%;
+    max-width: 950px;
+    background: linear-gradient(135deg, #fffdf7, #f8fbff);
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.certificate-border {
+    border: 8px solid #d4af37;
+    border-radius: 18px;
+    padding: 40px 30px;
+    background: white;
+}
+
+.certificate-header {
+    margin-bottom: 30px;
+}
+
+.certificate-title {
+    font-size: 48px;
+    font-weight: bold;
+    color: #1f3c88;
+    margin-bottom: 10px;
+}
+
+.certificate-subtitle {
+    font-size: 24px;
+    color: #6c757d;
+    letter-spacing: 1px;
+}
+
+.certificate-body {
+    margin-top: 20px;
+}
+
+.certificate-text {
+    font-size: 20px;
+    color: #444;
+    margin-bottom: 14px;
+}
+
+.certificate-name {
+    font-size: 42px;
+    font-weight: bold;
+    color: #222;
+    margin: 15px 0;
+}
+
+.certificate-skill {
+    font-size: 32px;
+    font-weight: bold;
+    color: #0d6efd;
+    margin: 15px 0;
+}
+
+.certificate-partner {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+    margin-top: 10px;
+}
+
+.certificate-date {
+    font-size: 18px;
+    color: #555;
+}
+
+.signature-line {
+    width: 80%;
+    height: 2px;
+    background-color: #333;
+    margin: 0 auto 10px auto;
+}
+
+.certificate-footer {
+    margin-top: 40px;
+}
+
+/* ---------------- PRINT ---------------- */
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    .certificate-wrapper,
+    .certificate-wrapper * {
+        visibility: visible;
+    }
+
+    .certificate-wrapper {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .certificate-card {
+        box-shadow: none !important;
+        border-radius: 0;
+        max-width: 100%;
+    }
+
+    .certificate-border {
+        border: 6px solid #d4af37;
+    }
+}
+
+.message-bubble a {
+    text-decoration: none;
+    opacity: 0.6;
+}
+
+.message-bubble a:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.conversation-box {
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 16px;
+    border: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message-bubble {
+    max-width: 75%;
+    padding: 14px 16px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    word-wrap: break-word;
+}
+
+.my-message {
+    background: linear-gradient(135deg, #0d6efd, #3d8bfd);
+    color: white;
+    border-bottom-right-radius: 6px;
+    text-align: left;
+}
+
+.other-message {
+    background: white;
+    color: #212529;
+    border: 1px solid #dee2e6;
+    border-bottom-left-radius: 6px;
+    text-align: left;
+}
+
+.message-time {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.conversation-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.conversation-box::-webkit-scrollbar-thumb {
+    background: #ced4da;
+    border-radius: 10px;
+}
+
+#chat-form input,
+#chat-form button {
+    border-radius: 12px;
+}
+
+.message-bubble a {
+    opacity: 0.7;
+    transition: 0.2s ease;
+}
+
+.message-bubble a:hover {
+    opacity: 1;
+    transform: scale(1.08);
+}
+
+.conversation-box {
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 16px;
+    border: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message-bubble {
+    max-width: 75%;
+    padding: 14px 16px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    word-wrap: break-word;
+}
+
+.my-message {
+    background: linear-gradient(135deg, #0d6efd, #3d8bfd);
+    color: white;
+    border-bottom-right-radius: 6px;
+    text-align: left;
+}
+
+.other-message {
+    background: white;
+    color: #212529;
+    border: 1px solid #dee2e6;
+    border-bottom-left-radius: 6px;
+    text-align: left;
+}
+
+.message-time {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.conversation-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.conversation-box::-webkit-scrollbar-thumb {
+    background: #ced4da;
+    border-radius: 10px;
+}
+
+#chat-form input,
+#chat-form button {
+    border-radius: 12px;
+}
+
+.message-bubble a {
+    opacity: 0.7;
+    transition: 0.2s ease;
+}
+
+.message-bubble a:hover {
+    opacity: 1;
+    transform: scale(1.08);
+}
+
+.speak-btn {
+    padding: 2px 8px;
+    line-height: 1.2;
+    border-radius: 10px;
+}
+
+.speak-btn {
+    padding: 2px 8px;
+    line-height: 1.2;
+    border-radius: 10px;
+}
+
+#call-status {
+    font-weight: 500;
+}
+
+.learning-card,
+.practice-card {
+    transition: 0.3s ease;
+    border-radius: 18px;
+}
+
+.learning-card:hover,
+.practice-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+
+.learning-card,
+.practice-card {
+    transition: 0.3s ease;
+    border-radius: 18px;
+}
+
+.learning-card:hover,
+.practice-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+
+.learning-card {
+    transition: 0.3s ease;
+    border-radius: 18px;
+}
+
+.learning-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+
+img[alt="Signature"] {
+    object-fit: contain;
+}
+
+.signature-line {
+    width: 80%;
+    height: 2px;
+    background-color: #333;
+    margin: 0 auto 8px auto;
+}

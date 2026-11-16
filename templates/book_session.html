@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow p-4">
+            <h2 class="text-center mb-4">Book Session with {{ receiver.anonymous_name }}</h2>
+
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Topic</label>
+                    <input type="text" name="topic" class="form-control" placeholder="Example: Python Basics" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Session Date</label>
+                    <input type="date" name="session_date" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Session Time</label>
+                    <input type="time" name="session_time" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Message</label>
+                    <textarea name="message" class="form-control" rows="4" placeholder="Write a short message..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-success">Send Booking Request</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

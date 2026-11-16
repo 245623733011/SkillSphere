@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Quiz Results - SkillSphere{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4">My Quiz Results</h2>
+
+{% if results %}
+<div class="row g-4">
+    {% for result in results %}
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0 p-4 h-100">
+            <h5 class="fw-bold">{{ result.skill }}</h5>
+            <p><strong>Score:</strong> {{ result.score }}/{{ result.total_questions }}</p>
+            <p><strong>Date:</strong> {{ result.created_at.strftime('%d %b %Y, %I:%M %p') }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card p-5 text-center">
+    <h4>No quiz results yet.</h4>
+</div>
+{% endif %}
+{% endblock %}

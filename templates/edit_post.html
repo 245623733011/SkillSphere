@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow p-4">
+            <h2 class="mb-4 text-center">Edit Skill Post</h2>
+
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Post Type</label>
+                    <select name="post_type" class="form-control" required>
+                        <option value="Learn" {% if post.post_type == 'Learn' %}selected{% endif %}>I Want to Learn</option>
+                        <option value="Teach" {% if post.post_type == 'Teach' %}selected{% endif %}>I Can Teach</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Skill Name</label>
+                    <input type="text" name="skill_name" class="form-control" value="{{ post.skill_name }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea name="description" class="form-control" rows="5" required>{{ post.description }}</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Availability</label>
+                    <input type="text" name="availability" class="form-control" value="{{ post.availability if post.availability else '' }}">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Status</label>
+                    <select name="status" class="form-control" required>
+                        <option value="Open" {% if post.status == 'Open' %}selected{% endif %}>Open</option>
+                        <option value="Closed" {% if post.status == 'Closed' %}selected{% endif %}>Closed</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update Post</button>
+                <a href="{{ url_for('my_posts') }}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

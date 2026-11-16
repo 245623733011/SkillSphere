@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center mb-4 no-print">
+    <button onclick="window.print()" class="btn btn-primary">
+        Download / Print Certificate
+    </button>
+    <a href="{{ url_for('certificates') }}" class="btn btn-secondary ms-2">
+        Back
+    </a>
+</div>
+
+<div class="certificate-wrapper my-5">
+    <div class="certificate-card shadow-lg">
+        <div class="certificate-border">
+            <div class="certificate-header text-center">
+                <h1 class="certificate-title">SkillSphere</h1>
+                <p class="certificate-subtitle">Certificate of Achievement</p>
+            </div>
+
+            <div class="certificate-body text-center">
+                <p class="certificate-text">This is proudly presented to</p>
+
+                <h2 class="certificate-name">{{ cert.user.anonymous_name }}</h2>
+
+                <p class="certificate-text">
+                    for successfully completing a skill exchange session in
+                </p>
+
+                <h3 class="certificate-skill">{{ cert.skill }}</h3>
+
+                <p class="certificate-text">in collaboration with</p>
+
+                <h4 class="certificate-partner">{{ cert.partner.anonymous_name }}</h4>
+
+                <p class="certificate-date mt-4">
+                    Issued on {{ cert.issue_date.strftime('%Y-%m-%d') }}
+                </p>
+            </div>
+
+            <div class="certificate-footer row mt-5 text-center">
+                <div class="col-md-6 mb-3">
+                    <div class="signature-line"></div>
+                    <p class="mb-0 fw-bold">Skill Exchange Partner</p>
+                    <small>{{ cert.partner.anonymous_name }}</small>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <div class="signature-line"></div>
+                    <p class="mb-0 fw-bold">SkillSphere Authority</p>
+                    <small>Official Certificate</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

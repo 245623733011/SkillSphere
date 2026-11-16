@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">My Skill Posts</h2>
+
+<div class="mb-3">
+    <a href="{{ url_for('create_post') }}" class="btn btn-success">Create New Post</a>
+    <a href="{{ url_for('board') }}" class="btn btn-outline-dark">Open Community Board</a>
+</div>
+
+{% if posts %}
+<div class="row">
+    {% for post in posts %}
+    <div class="col-md-6 mb-4">
+        <div class="card shadow p-4 h-100">
+            <h4>{{ post.skill_name }}</h4>
+            <p><strong>Type:</strong> {{ post.post_type }}</p>
+            <p><strong>Description:</strong> {{ post.description }}</p>
+            <p><strong>Availability:</strong> {{ post.availability if post.availability else 'Not specified' }}</p>
+            <p><strong>Status:</strong> {{ post.status }}</p>
+
+            <div class="mt-2">
+                <a href="{{ url_for('edit_post', post_id=post.id) }}" class="btn btn-primary btn-sm">Edit</a>
+
+                {% if post.status == 'Open' %}
+                    <a href="{{ url_for('close_post', post_id=post.id) }}" class="btn btn-warning btn-sm">Close</a>
+                {% endif %}
+
+                <a href="{{ url_for('delete_post', post_id=post.id) }}" class="btn btn-danger btn-sm">Delete</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-warning text-center">
+    You have not created any posts yet.
+</div>
+{% endif %}
+{% endblock %}

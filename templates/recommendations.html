@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}AI Recommendations - SkillSphere{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">AI Smart Recommendations</h2>
+        <p class="text-muted mb-0">Discover the most compatible users based on skills, trust, rating, and exchange history.</p>
+    </div>
+    <div class="mt-2">
+        <a href="{{ url_for('matches') }}" class="btn btn-success me-2">View Matches</a>
+        <a href="{{ url_for('skill_search') }}" class="btn btn-outline-dark">Skill Search</a>
+    </div>
+</div>
+
+{% if recommended_users %}
+<div class="row g-4">
+    {% for rec in recommended_users %}
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0 p-4 h-100 recommendation-card">
+            <div class="d-flex justify-content-between align-items-start flex-wrap mb-3">
+                <div class="text-center text-md-start">
+                    <div class="avatar-circle-large mx-auto mx-md-0">{{ rec.user.avatar }}</div>
+                    <h4 class="mt-3 mb-1 fw-bold">{{ rec.user.anonymous_name }}</h4>
+                    <span class="badge bg-warning text-dark px-3 py-2">{{ rec.user.badge }}</span>
+                </div>
+
+                <div class="mt-3 mt-md-0 text-center">
+                    <small class="text-muted d-block">Match Score</small>
+                    <span class="badge bg-success fs-6 px-3 py-2">{{ rec.score }}</span>
+                </div>
+            </div>
+
+            <div class="row text-center mb-3">
+                <div class="col-4">
+                    <small class="text-muted d-block">Rating</small>
+                    <strong>{{ rec.user.rating }}</strong>
+                </div>
+                <div class="col-4">
+                    <small class="text-muted d-block">Trust</small>
+                    <strong>{{ rec.user.trust_score }}</strong>
+                </div>
+                <div class="col-4">
+                    <small class="text-muted d-block">Exchanges</small>
+                    <strong>{{ rec.user.completed_exchanges }}</strong>
+                </div>
+            </div>
+
+            <p class="mb-3">
+                <strong>Bio:</strong>
+                {{ rec.user.bio if rec.user.bio else 'No bio added yet.' }}
+            </p>
+
+            {% if rec.they_can_teach_me %}
+            <div class="recommendation-section mb-3">
+                <h6 class="fw-semibold text-success mb-2">They can teach you</h6>
+                <div class="d-flex flex-wrap gap-2">
+                    {% for skill in rec.they_can_teach_me %}
+                        <span class="badge bg-success-subtle text-dark border px-3 py-2">{{ skill }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if rec.i_can_teach_them %}
+            <div class="recommendation-section mb-3">
+                <h6 class="fw-semibold text-primary mb-2">You can teach them</h6>
+                <div class="d-flex flex-wrap gap-2">
+                    {% for skill in rec.i_can_teach_them %}
+                        <span class="badge bg-primary-subtle text-dark border px-3 py-2">{{ skill }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="recommendation-section mb-4">
+                <h6 class="fw-semibold mb-2">Why recommended</h6>
+                {% if rec.reasons %}
+                    <ul class="mb-0 ps-3">
+                        {% for reason in rec.reasons %}
+                            <li class="mb-1">{{ reason }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted mb-0">No recommendation reasons available.</p>
+                {% endif %}
+            </div>
+
+            <div class="mt-auto d-flex flex-wrap gap-2">
+                <a href="{{ url_for('view_user', user_id=rec.user.id) }}" class="btn btn-outline-dark btn-sm">View Profile</a>
+                <a href="{{ url_for('send_message', user_id=rec.user.id) }}" class="btn btn-outline-primary btn-sm">Message</a>
+                <a href="{{ url_for('chat', user_id=rec.user.id) }}" class="btn btn-outline-success btn-sm">Live Chat</a>
+                <a href="{{ url_for('book_session', user_id=rec.user.id) }}" class="btn btn-primary btn-sm">Book Session</a>
+
+                {% if rec.is_favorite %}
+                    <a href="{{ url_for('remove_favorite', user_id=rec.user.id) }}" class="btn btn-outline-danger btn-sm">Unfavorite</a>
+                {% else %}
+                    <a href="{{ url_for('add_favorite', user_id=rec.user.id) }}" class="btn btn-outline-warning btn-sm">Favorite</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card shadow border-0 p-5 text-center">
+    <h4 class="fw-bold mb-2">No recommendations available yet</h4>
+    <p class="text-muted mb-3">Update your skills in profile so SkillSphere can generate smarter recommendations for you.</p>
+    <div class="d-flex justify-content-center flex-wrap gap-2">
+        <a href="{{ url_for('profile') }}" class="btn btn-primary">Update Profile</a>
+        <a href="{{ url_for('matches') }}" class="btn btn-success">Check Matches</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

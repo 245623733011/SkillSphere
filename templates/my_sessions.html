@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}My Sessions - SkillSphere{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">My Sessions</h2>
+        <p class="text-muted mb-0">Track your sent requests, received bookings, and completed exchanges.</p>
+    </div>
+    <div class="mt-2">
+        <a href="{{ url_for('matches') }}" class="btn btn-success me-2">Find Matches</a>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-dark">Dashboard</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0 p-4 h-100">
+            <h3 class="mb-3 fw-semibold">Sent Requests</h3>
+
+            {% if sent_sessions %}
+                {% for session in sent_sessions %}
+                    <div class="session-card mb-3">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
+                            <h5 class="mb-1">To: {{ session.receiver.anonymous_name }}</h5>
+                            <span class="badge 
+                                {% if session.status == 'Pending' %}bg-warning text-dark
+                                {% elif session.status == 'Accepted' %}bg-primary
+                                {% elif session.status == 'Completed' %}bg-success
+                                {% elif session.status == 'Rejected' %}bg-danger
+                                {% else %}bg-secondary{% endif %}">
+                                {{ session.status }}
+                            </span>
+                        </div>
+
+                        <p class="mb-1"><strong>Topic:</strong> {{ session.topic }}</p>
+                        <p class="mb-1"><strong>Date:</strong> {{ session.session_date }}</p>
+                        <p class="mb-1"><strong>Time:</strong> {{ session.session_time }}</p>
+                        <p class="mb-3"><strong>Message:</strong> {{ session.message if session.message else 'No message' }}</p>
+
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="{{ url_for('view_user', user_id=session.receiver.id) }}" class="btn btn-outline-dark btn-sm">View Profile</a>
+                            <a href="{{ url_for('chat', user_id=session.receiver.id) }}" class="btn btn-outline-success btn-sm">Live Chat</a>
+
+                            {% if session.status == 'Accepted' %}
+                                <a href="{{ url_for('update_session_status', session_id=session.id, new_status='Completed') }}"
+                                   class="btn btn-success btn-sm">
+                                   Mark Completed
+                                </a>
+                            {% endif %}
+
+                            {% if session.status == 'Completed' %}
+                                <a href="{{ url_for('give_review', session_id=session.id, reviewee_id=session.receiver.id) }}"
+                                   class="btn btn-warning btn-sm">
+                                   Give Review
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-box text-center">
+                    <h5 class="fw-semibold">No sent requests yet</h5>
+                    <p class="text-muted mb-3">Start by finding a skill match and booking a session.</p>
+                    <a href="{{ url_for('matches') }}" class="btn btn-success btn-sm">Find Matches</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0 p-4 h-100">
+            <h3 class="mb-3 fw-semibold">Received Requests</h3>
+
+            {% if received_sessions %}
+                {% for session in received_sessions %}
+                    <div class="session-card mb-3">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
+                            <h5 class="mb-1">From: {{ session.sender.anonymous_name }}</h5>
+                            <span class="badge 
+                                {% if session.status == 'Pending' %}bg-warning text-dark
+                                {% elif session.status == 'Accepted' %}bg-primary
+                                {% elif session.status == 'Completed' %}bg-success
+                                {% elif session.status == 'Rejected' %}bg-danger
+                                {% else %}bg-secondary{% endif %}">
+                                {{ session.status }}
+                            </span>
+                        </div>
+
+                        <p class="mb-1"><strong>Topic:</strong> {{ session.topic }}</p>
+                        <p class="mb-1"><strong>Date:</strong> {{ session.session_date }}</p>
+                        <p class="mb-1"><strong>Time:</strong> {{ session.session_time }}</p>
+                        <p class="mb-3"><strong>Message:</strong> {{ session.message if session.message else 'No message' }}</p>
+
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="{{ url_for('view_user', user_id=session.sender.id) }}" class="btn btn-outline-dark btn-sm">View Profile</a>
+                            <a href="{{ url_for('chat', user_id=session.sender.id) }}" class="btn btn-outline-success btn-sm">Live Chat</a>
+
+                            {% if session.status == 'Pending' %}
+                                <a href="{{ url_for('update_session_status', session_id=session.id, new_status='Accepted') }}"
+                                   class="btn btn-success btn-sm">
+                                   Accept
+                                </a>
+                                <a href="{{ url_for('update_session_status', session_id=session.id, new_status='Rejected') }}"
+                                   class="btn btn-danger btn-sm">
+                                   Reject
+                                </a>
+                            {% elif session.status == 'Accepted' %}
+                                <a href="{{ url_for('update_session_status', session_id=session.id, new_status='Completed') }}"
+                                   class="btn btn-primary btn-sm">
+                                   Mark Completed
+                                </a>
+                            {% elif session.status == 'Completed' %}
+                                <a href="{{ url_for('give_review', session_id=session.id, reviewee_id=session.sender.id) }}"
+                                   class="btn btn-warning btn-sm">
+                                   Give Review
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-box text-center">
+                    <h5 class="fw-semibold">No received requests yet</h5>
+                    <p class="text-muted mb-0">Requests from other users will appear here.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
